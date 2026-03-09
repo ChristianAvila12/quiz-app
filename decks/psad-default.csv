@@ -1,19 +1,18 @@
-MCQ,"A mass hangs on two parallel springs. The individual spring stiffness are K1 and K2
-What is the total composite spring constant ?",(K1 K2) / (K1 +K2),K1 + ?2,1/K1 + 1/K2,K1 K2,1
-MCQ, Determine the spring constant for the system of springs in series,(K1 K2) / (K1 +K2),K1 + ?2,1/K1 + 1/K2,K1 K2,0
+MCQ,"A mass hangs on two parallel springs. The individual spring stiffness are K1 and K2 What is the total composite spring constant ?",(K1 K2) / (K1 +K2),K1 + K2,1/K1 + 1/K2,K1 K2,1
+MCQ, Determine the spring constant for the system of springs in series,(K1 K2) / (K1 +K2),K1 + K2,1/K1 + 1/K2,K1 K2,0
 MCQ, Identify the state of stress in a material described as follows: Stress at Failure,Proportional Limit,Ultimate Strength,Yield Strength,Rupture Strength,3
 MCQ,Highest Ordinate in Stress-Strain diagram,Proportional Limit,Ultimate Strength,Yield Strength,Rupture Strength,1
 MCQ,An Appreciable elongation or yielding of the material without any corresponding increase of load.,Proportional Limit,Ultimate Strength,Yield Strength,Rupture Strength,2
 MCQ,What do you call the retarding force acting opposite a body in motion,Inertia,Static Friction,Dynamic,Kinetic Friction,3
-MCQ, It is the displacement of one level relative to the level above or below,Fatigue,Torsional Shear Stress,Story Drift,Creep,2
+MCQ,It is the displacement of one level relative to the level above or below,Fatigue,Torsional Shear Stress,Story Drift,Creep,2
 MCQ,Occurs when the center of mass and rigidity do not coincide.,Fatigue,Torsional Shear Stress,Story Drift,Creep,1
-MCQ,If the structure is subjected to a cycle of stresses…,Fatigue,Torsional Shear Stress,Story Drift,Creep,0
+MCQ,If the structure is subjected to a cycle of stressesï¿½,Fatigue,Torsional Shear Stress,Story Drift,Creep,0
 MCQ,It is measured by the Richter scale.,Ground Acceleration,Magnitude of Earthquake,Resonance,Attenuation,1
 MCQ,It is measured by a Seismometer.,Reference Points,Intensity of observed effects,Components of ground motion,Actual Displacement,3
 MCQ,"Besides the epicenter, it describes the location of the earthquake.",Geologic Formation,Focal Depth,Fault Line,Dip Angle,1
 MCQ,Composite material exhibits elastic properties in one direction different from that in the perpendicular direction.,Isotropic,Prismatic,Homogeneous,Orthotropic,3
 MCQ,Material has the same composition at every point but elastic may not be the same in all directions.,Homogeneous,Isotropic,Prismatic,Orthotropic,0
-MCQ,Liquefaction is best described as…,A sudden drop in the shear strength of a soil,A decrease in pore water pressure,An increase in bearing capacity,An increase in effective stress,0
+MCQ,Liquefaction is best described asï¿½,A sudden drop in the shear strength of a soil,A decrease in pore water pressure,An increase in bearing capacity,An increase in effective stress,0
 MCQ,Which refers to the rigidity of a structure?,Deflection,Reciprocal of Deflection,Product of Stiffness and Deflection,Reciprocal of Stiffness,1
 MCQ,Point through which the resultant of resistance to applied lateral force acts.,Center of Mass,Center of Gravity,Center of Rigidity,In?Plane Offset,2
 MCQ,Point through which the applied seismic force acts.,Center of Mass,Center of Gravity,Center of Rigidity,Out?Plane Offset,0
@@ -36,7 +35,7 @@ MCQ,Material has same elastic properties in all directions.,Orthotropic,Isotropi
 MCQ,Material returns to original shape when load is removed.,Buckling,Elasticity,Plasticity,Resilience,1
 MCQ,Material deforms considerably with slight increase in stress.,Yielding,Strain Hardening,Breaking,Fracture,0
 MCQ,Material has same composition at any point.,Isotropic,Plastic,Homogeneous,Orthotropic,2
-MCQ, Ability of a material to deform in the plastic range without breaking.,Stiffness,Resilience,Elongation,Ductility,3
+MCQ,Ability of a material to deform in the plastic range without breaking.,Stiffness,Resilience,Elongation,Ductility,3
 MCQ,Ability of a material to absorb energy in the plastic range.,Elasticity,Toughness,Plasticity,Stiffnes,1
 MCQ,Property of a material which makes it return to its original dimension when the load is removed ,Plasticity ,Elasticity ,Permanent Set ,Stiffness,1
 MCQ,Property of a material to absorb energy in the elastic range,Resilience,Stiffness,Plasticity,Toughness,0
@@ -46,7 +45,7 @@ MCQ,Loss of stress that takes place with the passage of time as concrete is held
 MCQ,Retarding force acting opposite a body in motion,Inertia,Dynamic,Static Friction,Kinetic Friction,3
 MCQ,"Structural member with unsupported height to least lateral dimension ? 3, used primarily to support axial load",Pedestal,Column,Deep Beam,Corbel,1
 MCQ,Force which determines whether the body will be in equilibrium or will have a varying state of motion,Equilibrium,Resultant,Momentum,Impulse,1
-MCQ,Identify the principle used in equations related to the deformation of axially loaded materials: Stress is proportional to strain within the elastic region,Hooke’s Law,Young’s Modulus,Poisson’s Ratio,St. Venant’s Principle,0
-MCQ,"Identify the principle used in equations related to the deformation of axially loaded materials: That in the deformation of axially loaded members, the ratio of lateral to longitudinal strain is constant",Hooke’s Law,Young’s Modulus,Poisson’s Ratio,St. Venant’s Principle,2
-MCQ,"Identify the principle used in equations related to the deformation of axially loaded materials: Within elastic range, constant of proportionality defines linear relationship between stress and strain",Hooke’s Law,Young’s Modulus,Poisson’s Ratio,St. Venant’s Principle,1
+MCQ,Identify the principle used in equations related to the deformation of axially loaded materials: Stress is proportional to strain within the elastic region,Hookeï¿½s Law,Youngï¿½s Modulus,Poissonï¿½s Ratio,St. Venantï¿½s Principle,0
+MCQ,"Identify the principle used in equations related to the deformation of axially loaded materials: That in the deformation of axially loaded members, the ratio of lateral to longitudinal strain is constant",Hookeï¿½s Law,Youngï¿½s Modulus,Poissonï¿½s Ratio,St. Venantï¿½s Principle,2
+MCQ,"Identify the principle used in equations related to the deformation of axially loaded materials: Within elastic range, constant of proportionality defines linear relationship between stress and strain",Hookeï¿½s Law,Youngï¿½s Modulus,Poissonï¿½s Ratio,St. Venantï¿½s Principle,1
 MCQ,Force generated by a body at rest,Impact,Impulse,Dynamic,Static,3
