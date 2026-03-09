@@ -4,15 +4,14 @@ const CACHE_NAME = "quiz-app-cache-v1";
 
 // Files to cache
 const urlsToCache = [
-  "/",             // root
-  "/index.html",   // your main HTML
-  "/icon.png",
-  "/correct.wav",
-  "/wrong.mp3",
-  "/decks/hpge-default.csv",
-  "/decks/mstc-default.csv",
-  "/decks/decks.json"
-
+  "./",              // root
+  "./index.html",    // main HTML
+  "./icon.png",
+  "./correct.wav",
+  "./wrong.mp3",
+  "./decks/hpge-default.csv",
+  "./decks/mstc-default.csv",
+  "./decks/decks.json"
 ];
 
 // Install event: cache files
@@ -44,5 +43,6 @@ self.addEventListener("activate", event => {
     })
   );
 });
+
 
 
