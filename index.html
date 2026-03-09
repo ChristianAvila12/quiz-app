@@ -288,51 +288,42 @@
   const soundCorrect = new Audio('correct.wav');
   const soundWrong = new Audio('wrong.mp3');
     
-  initializeDefaultDecks();
+  
 
   async function initializeDefaultDecks() {
-    try {
-      // Step 1: Load registry JSON
-      const registryResponse = await fetch('decks/decks.json');
-      const deckRegistry = await registryResponse.json();
-  
-      // Step 2: Loop through registry entries
-      for (const entry of deckRegistry) {
-        if (library.some(d => d.title === entry.name)) continue;
-  
-        try {
-          const response = await fetch(entry.path);
-          const text = await response.text();
-  
-          // Step 3: Parse CSV with your parser
-          const parsedQuestions = parseCSV(text);
-  
-          const deck = {
-            title: entry.name,
-            questions: parsedQuestions.map(q => ({
-              q: q.question,
-              choices: q.choices,
-              answer: q.answer
-            })),
-            record: "0/0"
-          };
-  
-          library.push(deck);
-        } catch (err) {
-          console.error(`Failed to load deck ${entry.name}:`, err);
-        }
+  try {
+    const registryResponse = await fetch('decks/decks.json');
+    const deckRegistry = await registryResponse.json();
+
+    for (const entry of deckRegistry) {
+      if (library.some(d => d.title === entry.name)) continue;
+
+      const response = await fetch(entry.path);
+      const text = await response.text();
+      const parsedQuestions = parseCSV(text);
+
+      console.log("Parsed questions for", entry.name, parsedQuestions);
+
+      if (parsedQuestions.length > 0) {
+        const deck = {
+          title: entry.name,
+          questions: parsedQuestions.map(q => ({
+            q: q.question,
+            choices: q.choices,
+            answer: q.answer
+          })),
+          record: "0/0"
+        };
+        library.push(deck);
       }
-  
-      // Step 4: Save updated library
-      localStorage.setItem('quizLibrary', JSON.stringify(library));
-      renderLibrary();
-      console.log("Registry loaded:", deckRegistry);
-      console.log("Loading deck:", entry.name, entry.path);
-      console.log("Parsed questions:", parsedQuestions.length);
-    } catch (err) {
-      console.error("Failed to load decks.json:", err);
     }
+
+    localStorage.setItem('quizLibrary', JSON.stringify(library));
+    renderLibrary();
+  } catch (err) {
+    console.error("Failed to load decks.json:", err);
   }
+}
 
   /* --- Utility Functions --- */
   function showTab(tabId) {
@@ -676,9 +667,11 @@ function prevQuestion() {
   }
 
   window.onload = () => showTab('deck-selection');
+    initializeDefaultDecks();
 </script>
 </body>
 </html>
+
 
 
 
