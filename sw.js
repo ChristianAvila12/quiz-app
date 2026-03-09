@@ -7,6 +7,8 @@ const urlsToCache = [
   "/",             // root
   "/index.html",   // your main HTML
   "/icon.png",
+  "/correct.wav",
+  "/wrong.mp3"
 ];
 
 // Install event: cache files
@@ -38,3 +40,4 @@ self.addEventListener("activate", event => {
     })
   );
 });
+
