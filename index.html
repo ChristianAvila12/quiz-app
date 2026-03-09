@@ -315,7 +315,7 @@
       try {
         const response = await fetch(entry.path);
         const text = await response.text();
-        addDeck(entry.name, text);
+        addDeck(entry.name, text);   // ✅ pass name + CSV text
       } catch (err) {
         console.error(`Failed to load deck ${entry.name}:`, err);
       }
@@ -366,22 +366,22 @@
 }
 
   function addDeck(title, text) {
-    const parsed = parseCSV(text);
-    if (parsed.length === 0) {
-      console.warn("CSV empty or invalid for deck:", title);
-      return false;
-    }
-    const deck = {
-      title: entry.name,
-      questions: parsedQuestions,   // ✅ keep parser output as-is
-      record: "0/0"
-    };
-
-
-    library.push(deck);
-    localStorage.setItem('quizLibrary', JSON.stringify(library));
-    return true;
+  const parsed = parseCSV(text);
+  if (parsed.length === 0) {
+    console.warn("CSV empty or invalid for deck:", title);
+    return false;
   }
+
+  const deck = {
+    title: title,          // ✅ use the function parameter
+    questions: parsed,     // ✅ use parsed directly
+    record: "0/0"
+  };
+
+  library.push(deck);
+  localStorage.setItem('quizLibrary', JSON.stringify(library));
+  return true;
+}
 
   function renderLibrary() {
   const list = document.getElementById('deck-list');
@@ -687,6 +687,7 @@ function prevQuestion() {
   </div>
 </body>
 </html>
+
 
 
 
