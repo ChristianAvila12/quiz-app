@@ -662,7 +662,7 @@ function prevQuestion() {
 
   /* --- Service Worker --- */
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js')
+    navigator.serviceWorker.register('./sw.js')
       .then(() => console.log("Service Worker registered"));
   }
 
@@ -671,6 +671,7 @@ function prevQuestion() {
 </script>
 </body>
 </html>
+
 
 
 
