@@ -328,20 +328,21 @@
 }
 
   function renderLibrary() {
-    const list = document.getElementById('deck-list');
-    if (library.length === 0) {
-      list.innerHTML = "<p>No decks saved yet.</p>";
-      return;
-    }
-    list.innerHTML = library.map((deck, i) => `
-      <div class="deck-card">
-        <strong>${deck.title}</strong><br>
-        ${deck.questions.length} questions | Record: ${deck.record}
-        <br><button onclick="startQuiz(${i})">Start Quiz</button>
-        <br><button onclick="deleteDeck(${i})">Delete Deck</button>
-      </div>
-    `).join("");
+  const list = document.getElementById('deck-list');
+  if (library.length === 0) {
+    list.innerHTML = "<p>No decks saved yet.</p>";
+    return;
   }
+  list.innerHTML = library.map((deck, i) => `
+    <div class="deck-card">
+      <strong>${deck.title}</strong><br>
+      ${deck.questions.length} questions | Record: ${deck.record}
+      <br>
+      <button onclick="startQuiz(${i})">Start Quiz</button>
+      <button onclick="deleteDeck(${i})">Delete Deck</button>
+    </div>
+  `).join("");
+}
 
 function deleteDeck(deckIndex) {
   if (confirm("Are you sure you want to delete this deck?")) {
@@ -609,5 +610,6 @@ function prevQuestion() {
 </script>
 </body>
 </html>
+
 
 
