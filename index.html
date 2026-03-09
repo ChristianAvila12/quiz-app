@@ -19,6 +19,16 @@
     align-items: center;
   }
 
+  .app-container {
+  display: flex;
+  flex-direction: column; /* stack elements vertically */
+  justify-content: center; /* center vertically */
+  align-items: center;     /* center horizontally */
+  min-height: 100vh;       /* full viewport height */
+  text-align: center;      /* optional: center text */
+}
+
+
   /* Show tabs bar only when home tab is active */
   #deck-selection.active ~ #tabs {
     display: flex;
@@ -234,6 +244,8 @@
 </style>
 </head>
 <body>
+  <div class="app-container">
+
     <!-- Home tab -->
   <div id="deck-selection" class="tab card active">
     <h2>CELE QUIZ</h2>
@@ -672,8 +684,10 @@ function prevQuestion() {
   window.onload = () => showTab('deck-selection');
     initializeDefaultDecks();
 </script>
+  </div>
 </body>
 </html>
+
 
 
 
