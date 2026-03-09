@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#1b263b">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz App</title>
+  <style>
+    /* Make cards fill the screen width on mobile */
+    @media (max-width: 600px) {
+
+    body {
+        font-size: 1.2rem; /* base font bigger */
+      }
+
+      .card h2 {
+        font-size: 1.6rem; /* larger headings */
+      }
+
+      .question {
+        font-size: 1.4rem; /* bigger question text */
+      }
+
+      .choice {
+        font-size: 1.2rem;
+        padding: 18px; /* larger tap area */
+      }
+
+      #tabs button {
+        font-size: 1.1rem;
+        padding: 14px 20px; /* bigger buttons */
+      }
+
+      #tracker, #timer {
+        font-size: 1.1rem;
+      }
+
+      .result-card {
+        font-size: 1.1rem;
+        padding: 16px;
+      }
+
+      .card {
+        width: 100%;
+        max-width: none;
+        margin: 0;
+        border-radius: 0; /* flush edges for mobile look */
+        box-shadow: none; /* flatter style */
+      }
+
+      /* Tabs bar buttons stack or shrink */
+      #tabs {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      #tabs button {
+        flex: 1 1 45%; /* two per row */
+        margin: 5px;
+        font-size: 0.9rem;
+        padding: 10px;
+      }
+
+      /* Choices bigger tap targets */
+      .choice {
+        font-size: 1rem;
+        padding: 16px;
+        margin: 8px 0;
+      }
+
+      /* Results scroll nicely */
+      #results {
+        max-height: none;
+        overflow-y: visible;
+      }
+    }
+
+    /* Base styling */
+    body {
+    background: #0d1b2a; /* dark bluish */
+    color: #e0e0e0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    }
+
+    /* Tabs bar */
+    #tabs {
+    background: #1b263b;
+    padding: 12px;
+    text-align: center;
+    width: 100%;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+    margin-bottom: 20px; /* add space below top bar */
+    }
+
+
+    #tabs button {
+    margin: 5px;
+    padding: 12px 20px;
+    background: #415a77;
+    color: #e0e0e0;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s;
+    font-size: 1rem;
+    }
+
+    #tabs button:hover {
+    background: #778da9;
+    }
+
+    /* Card layout */
+    .tab {
+    display: none;
+    margin-top: 20px;
+    width: 100%;
+    }
+
+    .card {
+    background: #1b263b;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    max-width: 600px;
+    width: 95%; /* responsive */
+    margin: auto;
+    text-align: center;
+    }
+
+    .card h2 {
+    margin-bottom: 20px;
+    color: #e0e0e0;
+    font-size: 1.4rem;
+    }
+
+    /* Inputs and buttons */
+    input, select, button {
+    margin: 10px;
+    padding: 12px;
+    border-radius: 6px;
+    border: none;
+    font-size: 1rem;
+    }
+
+    input[type="text"], input[type="number"], select {
+    width: 90%;
+    background: #0d1b2a;
+    color: #e0e0e0;
+    border: 1px solid #415a77;
+    }
+
+    button {
+    background: #415a77;
+    color: #fff;
+    cursor: pointer;
+    }
+
+    button:hover {
+    background: #778da9;
+    }
+
+    /* Deck library list */
+    #deck-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* consistent spacing between cards */
+    margin-top: 10px; /* space above the list */
+    }
+
+    /* Deck card styling */
+    .deck-card {
+    background: #0d1b2a;
+    border: 1px solid #415a77;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: left;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+    margin: 0 10px; /* small horizontal margin so cards don’t touch edges */
+    }
+
+
+    .deck-card strong {
+    font-size: 1.1rem;
+    display: block;
+    margin-bottom: 5px;
+    }
+
+    /* Quiz UI */
+    .question {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    animation: fadeIn 0.5s;
+    }
+
+    .choice {
+    padding: 14px;
+    margin: 10px 0;
+    background: #0d1b2a;
+    border: 1px solid #415a77;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+    font-size: 1rem;
+    }
+
+    .choice:hover {
+    background: #415a77;
+    transform: scale(1.02);
+    }
+
+    .correct {
+    background: #2e7d32 !important;
+    }
+
+    .wrong {
+    background: #c62828 !important;
+    }
+
+    #tracker {
+    margin: 15px 0;
+    font-weight: bold;
+    font-size: 1rem;
+    }
+
+    #progress-bar {
+    width: 100%;
+    height: 8px;
+    background: #0d1b2a;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    }
+
+    #progress {
+    height: 100%;
+    background: #778da9;
+    width: 0%;
+    border-radius: 4px;
+    transition: width 0.5s;
+    }
+
+    #timer {
+    margin: 10px 0;
+    font-size: 0.9rem;
+    color: #ffcc00;
+    }
+
+    /* Results */
+    #results {
+    max-height: 400px;
+    overflow-y: auto;
+    margin-top: 20px;
+    text-align: left;
+    }
+
+    .result-card {
+    background: #0d1b2a;
+    border: 1px solid #415a77;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 8px;
+    }
+
+    .user-wrong {
+    color: #ef5350;
+    }
+
+    .user-correct {
+    color: #81c784;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Mobile adjustments */
+    @media (max-width: 480px) {
+    .card {
+        padding: 15px;
+    }
+    .question {
+        font-size: 1rem;
+    }
+    .choice {
+        font-size: 0.9rem;
+        padding: 12px;
+    }
+    #tabs button {
+        font-size: 0.9rem;
+        padding: 10px 16px;
+    }
+    }
+  </style>
+</head>
+<body>
+    <div id="tabs">
+        <button onclick="showTab('create')">Create Deck</button>
+        <button onclick="showTab('library')">Decks</button>
+        <button onclick="showTab('quiz')">Quiz</button>
+    </div>
+
+<div id="create" class="tab card">
+    <h2>Create Deck</h2>
+    <input type="text" id="deck-title" placeholder="Deck Title">
+    <input type="file" id="deck-file" accept=".csv">
+    <button onclick="saveDeck()">Save Deck</button>
+  </div>
+
+  <div id="quiz" class="tab card">
+  <h2>Quiz</h2>
+  <div id="tracker"></div>
+  <div id="progress-bar"><div id="progress"></div></div>
+  <div id="timer"></div>
+  <div id="quiz-container"></div>
+  <div id="results"></div>
+  <div id="nav-buttons">
+    <button onclick="prevQuestion()">Previous</button>
+    <button onclick="nextQuestion()">Next</button>
+  </div>
+</div>
+
+  <div id="library" class="tab card">
+    <h2>Deck Library</h2>
+    <div id="deck-list"></div>
+  </div>
+
+<div id="quiz" class="tab card">
+  <h2>Quiz</h2>
+  <div id="tracker"></div>
+  <div id="progress-bar"><div id="progress"></div></div>
+  <div id="timer"></div>
+  <div id="quiz-container"></div>
+  <div id="results"></div>
+</div>
+
+  <script>
+    let library = JSON.parse(localStorage.getItem('quizLibrary') || "[]");
+    let currentDeck = null;
+    let questions = [];
+    let currentIndex = 0;
+    let score = 0;
+    let resultsData = [];
+    let timer;
+
+    // When answering or skipping, update the slot for the current question:
+    resultsData[currentIndex] = {
+    question: q.question,
+    userChoice: q.choices[selectedIndex], // or "No Answer"
+    correctChoice: q.choices[q.answer],
+    correct: correct // true/false
+    };
+
+    function showTab(tabId) {
+    document.querySelectorAll('.tab').forEach(tab => tab.style.display = 'none');
+    document.getElementById(tabId).style.display = 'block';
+    if (tabId === 'library') renderLibrary();
+    }
+
+    function saveDeck() {
+    const title = document.getElementById('deck-title').value;
+    const file = document.getElementById('deck-file').files[0];
+    if (!title || !file) {
+        alert("Please provide a deck title and CSV file.");
+        return;
+    }
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const text = e.target.result;
+        const parsed = parseCSV(text);
+        const deck = { title, questions: parsed, record: 0 };
+        library.push(deck);
+        localStorage.setItem('quizLibrary', JSON.stringify(library));
+        alert("Deck saved!");
+        document.getElementById('deck-title').value = "";
+        document.getElementById('deck-file').value = "";
+    };
+    reader.readAsText(file);
+    }
+
+    function renderLibrary() {
+      const list = document.getElementById('deck-list');
+      if (library.length === 0) {
+          list.innerHTML = "<p>No decks saved yet.</p>";
+          return;
+      }
+      list.innerHTML = library.map((deck, i) => `
+          <div class="deck-card">
+          <strong>${deck.title}</strong><br>
+          ${deck.questions.length} questions | Record: ${deck.record}
+          <br><button onclick="startQuiz(${i})">Start Quiz</button>
+          </div>
+      `).join("");
+    }
+
+    function startQuiz(deckIndex) {
+      currentDeck = library[deckIndex];
+      questions = currentDeck.questions;
+      currentIndex = 0;
+      score = 0;
+      resultsData = [];
+
+      // Prompt user for mode
+      let modeChoice = confirm("Do you want a timed quiz? Click OK for Timed, Cancel for Untimed.");
+      if (modeChoice) {
+          let seconds = parseInt(prompt("Enter seconds per question:", "10"));
+          if (isNaN(seconds) || seconds <= 0) seconds = 10;
+          currentDeck.mode = "timed";
+          currentDeck.timeLimit = seconds;
+      } else {
+          currentDeck.mode = "untimed";
+      }
+
+      showTab('quiz');
+      showQuestion();
+    }
+
+    function nextQuestion() {
+      clearInterval(timer);
+      const q = questions[currentIndex];
+      const choices = document.querySelectorAll('.choice');
+
+        // If no choice selected, treat as wrong
+        let selected = Array.from(choices).find(c => c.classList.contains('correct') || c.classList.contains('wrong'));
+        if (!selected) {
+          resultsData.push({
+            question: q.question,
+            userChoice: "No Answer",
+            correctChoice: q.choices[q.answer],
+            correct: false
+          });
+        }
+
+      currentIndex++;
+      showQuestion();
+    }
+
+    function prevQuestion() {
+      if (currentIndex > 0) {
+        currentIndex--;
+        showQuestion();
+      }
+    }
+
+    function parseCSV(text) {
+      const rows = [];
+      let row = [], value = "", inQuotes = false;
+      for (let i = 0; i < text.length; i++) {
+          const char = text[i];
+          if (char === '"') {
+          if (inQuotes && text[i+1] === '"') { value += '"'; i++; }
+          else inQuotes = !inQuotes;
+          } else if (char === ',' && !inQuotes) {
+          row.push(value);
+          value = "";
+          } else if ((char === '\n' || char === '\r') && !inQuotes) {
+          if (value !== "" || row.length > 0) {
+              row.push(value);
+              rows.push(row);
+              row = [];
+              value = "";
+          }
+          } else {
+          value += char;
+          }
+      }
+      if (value !== "" || row.length > 0) {
+          row.push(value);
+          rows.push(row);
+      }
+
+      const parsed = [];
+      for (let r of rows) {
+          if (r[0] && r[0].toLowerCase() === "mcq") {
+          parsed.push({
+              type: r[0],
+              question: r[1],
+              choices: r.slice(2, 6).map(c => c.trim()), // keep text as-is
+              answer: parseInt(r[6]) // only last column numeric
+          });
+          }
+      }
+      return parsed;
+    }
+
+    function showQuestion() {
+      if (currentIndex >= questions.length) { showResults(); return; }
+      const q = questions[currentIndex];
+      const quizDiv = document.getElementById('quiz-container');
+      document.getElementById('results').innerHTML = "";
+      document.getElementById('tracker').innerText =
+        `Question ${currentIndex + 1} of ${questions.length} | Score: ${score}`;
+
+      const progressPercent = ((currentIndex) / questions.length) * 100;
+      document.getElementById('progress').style.width = progressPercent + "%";
+
+      quizDiv.innerHTML = `
+        <div class="question">${q.question}</div>
+        ${q.choices.map((choice, i) => `<div class="choice" data-index="${i}">${choice}</div>`).join("")}
+      `;
+
+      document.querySelectorAll('.choice').forEach(choiceDiv => {
+        choiceDiv.addEventListener('click', handleChoice);
+      });
+
+      // If already answered, highlight
+      if (resultsData[currentIndex]) {
+        const prev = resultsData[currentIndex];
+        const choices = document.querySelectorAll('.choice');
+        choices.forEach((choiceDiv, i) => {
+          if (i === q.answer) choiceDiv.classList.add('correct');
+          if (prev.userChoice === q.choices[i] && !prev.correct) choiceDiv.classList.add('wrong');
+          choiceDiv.style.pointerEvents = "none";
+        });
+      }
+
+      if (currentDeck.mode === "timed") {
+        const seconds = currentDeck.timeLimit || 10;
+        startTimer(seconds);
+      } else {
+        document.getElementById('timer').innerText = "";
+      }
+    }
+
+    function handleChoice(e) {
+      clearInterval(timer);
+      const selectedIndex = parseInt(e.target.dataset.index);
+      const q = questions[currentIndex];
+      const choices = document.querySelectorAll('.choice');
+
+      choices.forEach((choiceDiv, i) => {
+          if (i === q.answer) choiceDiv.classList.add('correct');
+          if (i === selectedIndex && i !== q.answer) choiceDiv.classList.add('wrong');
+          choiceDiv.style.pointerEvents = "none";
+      });
+
+      let correct = selectedIndex === q.answer;
+      if (correct) score++;
+
+      resultsData.push({
+          question: q.question,
+          userChoice: q.choices[selectedIndex],
+          correctChoice: q.choices[q.answer],
+          correct: correct
+      });
+
+      setTimeout(() => {
+          currentIndex++;
+          showQuestion();
+      }, 1000); // faster transition
+    }
+
+    function autoRevealAnswer() {
+      const q = questions[currentIndex];
+      const choices = document.querySelectorAll('.choice');
+      choices.forEach((choiceDiv, i) => {
+          if (i === q.answer) choiceDiv.classList.add('correct');
+          else choiceDiv.classList.add('wrong');
+          choiceDiv.style.pointerEvents = "none";
+      });
+
+      resultsData.push({
+          question: q.question,
+          userChoice: "No Answer (Timed Out)",
+          correctChoice: q.choices[q.answer],
+          correct: false
+      });
+
+      setTimeout(() => {
+          currentIndex++;
+          showQuestion();
+      }, 600);
+    }
+
+    function startTimer(seconds) {
+      clearInterval(timer);
+      let timeLeft = seconds;
+      document.getElementById('timer').innerText = `Time left: ${timeLeft}s`;
+      timer = setInterval(() => {
+          timeLeft--;
+          document.getElementById('timer').innerText = `Time left: ${timeLeft}s`;
+          if (timeLeft < 0) {
+            clearInterval(timer);
+            autoRevealAnswer();
+          }
+      }, 1000);
+    }
+
+    function showResults() {
+        const quizDiv = document.getElementById('quiz-container');
+        quizDiv.innerHTML = `<h3>Quiz Finished!</h3><p>Your Score: ${score} / ${questions.length} (${Math.round((score/questions.length)*100)}%)</p>`;
+        const resultsDiv = document.getElementById('results');
+        resultsDiv.innerHTML = resultsData.map(r => `
+            <div class="result-card">
+            <strong>Q:</strong> ${r.question}<br>
+            <strong>Your Answer:</strong> <span class="${r.correct ? 'user-correct' : 'user-wrong'}">${r.userChoice}</span><br>
+            <strong>Correct Answer:</strong> <span class="user-correct">${r.correctChoice}</span>
+            </div>
+        `).join("");
+
+        // Update record if new score is higher
+        if (score > currentDeck.record) {
+            currentDeck.record = score;
+            localStorage.setItem('quizLibrary', JSON.stringify(library));
+        }
+
+        // Fill progress bar to 100%
+        document.getElementById('progress').style.width = "100%";
+    }
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js')
+        .then(() => console.log("Service Worker registered"));
+    }
+  </script>
+</body>
+</html>
