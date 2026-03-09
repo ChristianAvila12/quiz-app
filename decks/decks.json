@@ -1,0 +1,4 @@
+[
+  { "name": "HPGE Terms - Default", "path": "decks/hpge-default.csv" },
+  { "name": "MSTC Terms - Default", "path": "decks/mstc-default.csv" }
+]
