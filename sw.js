@@ -8,7 +8,11 @@ const urlsToCache = [
   "/index.html",   // your main HTML
   "/icon.png",
   "/correct.wav",
-  "/wrong.mp3"
+  "/wrong.mp3",
+  "/decks/hpge-default.csv",
+  "/decks/mstc-default.csv",
+  "/decks/decks.json"
+
 ];
 
 // Install event: cache files
@@ -40,4 +44,5 @@ self.addEventListener("activate", event => {
     })
   );
 });
+
 
