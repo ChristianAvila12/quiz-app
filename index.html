@@ -298,27 +298,15 @@
     for (const entry of deckRegistry) {
       if (library.some(d => d.title === entry.name)) continue;
 
-      const response = await fetch(entry.path);
-      const text = await response.text();
-      const parsedQuestions = parseCSV(text);
-
-      console.log("Parsed questions for", entry.name, parsedQuestions);
-
-      if (parsedQuestions.length > 0) {
-        const deck = {
-          title: entry.name,
-          questions: parsedQuestions.map(q => ({
-            q: q.question,
-            choices: q.choices,
-            answer: q.answer
-          })),
-          record: "0/0"
-        };
-        library.push(deck);
+      try {
+        const response = await fetch(entry.path);
+        const text = await response.text();
+        addDeck(entry.name, text);
+      } catch (err) {
+        console.error(`Failed to load deck ${entry.name}:`, err);
       }
     }
 
-    localStorage.setItem('quizLibrary', JSON.stringify(library));
     renderLibrary();
   } catch (err) {
     console.error("Failed to load decks.json:", err);
@@ -351,22 +339,37 @@
   }
   const reader = new FileReader();
   reader.onload = function(e) {
-    const text = e.target.result;
-    const parsed = parseCSV(text);  // ✅ parsed is defined here
-    if (parsed.length === 0) {
+    if (addDeck(title, e.target.result)) {
+      alert("Deck saved!");
+      document.getElementById('deck-title').value = "";
+      document.getElementById('deck-file').value = "";
+      showTab('decks');
+    } else {
       alert("CSV file is empty or not in the correct format.");
-      return;
     }
-    const deck = { title, questions: parsed, record: 0 };
-    library.push(deck);
-    localStorage.setItem('quizLibrary', JSON.stringify(library));
-    alert("Deck saved!");
-    document.getElementById('deck-title').value = "";
-    document.getElementById('deck-file').value = "";
-    showTab('decks'); // jump to Deck Library
   };
   reader.readAsText(file);
 }
+
+  function addDeck(title, text) {
+    const parsed = parseCSV(text);
+    if (parsed.length === 0) {
+      console.warn("CSV empty or invalid for deck:", title);
+      return false;
+    }
+    const deck = { 
+      title, 
+      questions: parsed.map(q => ({
+        q: q.question,
+        choices: q.choices,
+        answer: q.answer
+      })), 
+      record: "0/0" 
+    };
+    library.push(deck);
+    localStorage.setItem('quizLibrary', JSON.stringify(library));
+    return true;
+  }
 
   function renderLibrary() {
   const list = document.getElementById('deck-list');
@@ -671,6 +674,7 @@ function prevQuestion() {
 </script>
 </body>
 </html>
+
 
 
 
