@@ -1,7 +1,7 @@
 {
   "name": "Quiz App",
   "short_name": "Quiz",
-  "start_url": "index.html",
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#0d1b2a",
   "theme_color": "#1b263b",
@@ -17,4 +17,5 @@
       "type": "image/png"
     }
   ]
+
 }
