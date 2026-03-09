@@ -326,6 +326,9 @@
       // Step 4: Save updated library
       localStorage.setItem('quizLibrary', JSON.stringify(library));
       renderLibrary();
+      console.log("Registry loaded:", deckRegistry);
+      console.log("Loading deck:", entry.name, entry.path);
+      console.log("Parsed questions:", parsedQuestions.length);
     } catch (err) {
       console.error("Failed to load decks.json:", err);
     }
@@ -676,6 +679,7 @@ function prevQuestion() {
 </script>
 </body>
 </html>
+
 
 
 
