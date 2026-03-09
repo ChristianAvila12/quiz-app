@@ -255,6 +255,9 @@
   <!-- Quiz tab -->
   <div id="quiz" class="tab card">
     <h2>Quiz</h2>
+    <div id="quiz-actions">
+      <button onclick="exitQuiz()">Exit</button>
+    </div>
     <div id="tracker"></div>
     <div id="progress-bar"><div id="progress"></div></div>
     <div id="timer"></div>
@@ -371,6 +374,21 @@ function deleteDeck(deckIndex) {
   showTab('quiz');   // switch to quiz tab
   showQuestion();
 }
+
+    function exitQuiz() {
+      // Clear quiz UI
+      document.getElementById('quiz-container').innerHTML = "";
+      document.getElementById('results').innerHTML = "";
+      document.getElementById('tracker').innerText = "";
+      document.getElementById('progress').style.width = "0%";
+      document.getElementById('timer').innerText = "";
+    
+      // Reset navigation buttons
+      document.getElementById('nav-buttons').style.display = "block";
+    
+      // Switch tabs
+      showTab('decks');
+    }
 
   function showQuestion() {
     if (currentIndex >= questions.length) { showResults(); return; }
@@ -610,6 +628,7 @@ function prevQuestion() {
 </script>
 </body>
 </html>
+
 
 
 
