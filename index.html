@@ -371,7 +371,12 @@
       console.warn("CSV empty or invalid for deck:", title);
       return false;
     }
-    const deck = { title, questions: parsed, record: 0 };
+    const deck = {
+      title: entry.name,
+      questions: parsedQuestions,   // ✅ keep parser output as-is
+      record: "0/0"
+    };
+
 
     library.push(deck);
     localStorage.setItem('quizLibrary', JSON.stringify(library));
@@ -682,6 +687,7 @@ function prevQuestion() {
   </div>
 </body>
 </html>
+
 
 
 
