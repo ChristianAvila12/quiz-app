@@ -288,7 +288,37 @@
   const soundCorrect = new Audio('correct.wav');
   const soundWrong = new Audio('wrong.mp3');
 
+async function initializeDefaultDecks() {
+  try {
+    const response = await fetch('decks/decks.json');
+    const registry = await response.json();
 
+    for (const entry of registry) {
+      if (library.some(d => d.title === entry.name)) continue;
+
+      const csvResponse = await fetch(entry.path);
+      const text = await csvResponse.text();
+      const rows = text.trim().split('\n').map(r => r.split(','));
+
+      const deck = {
+        title: entry.name,
+        questions: rows.map(r => ({
+          q: r[0],
+          choices: r.slice(1, 5),
+          answer: parseInt(r[5], 10)
+        })),
+        record: "0/0"
+      };
+
+      library.push(deck);
+    }
+
+    localStorage.setItem('quizLibrary', JSON.stringify(library));
+    renderLibrary();
+  } catch (err) {
+    console.error("Failed to initialize decks:", err);
+  }
+}
 
   /* --- Utility Functions --- */
   function showTab(tabId) {
@@ -635,6 +665,7 @@ function prevQuestion() {
 </script>
 </body>
 </html>
+
 
 
 
