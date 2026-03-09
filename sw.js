@@ -11,6 +11,7 @@ const urlsToCache = [
   "./wrong.mp3",
   "./decks/hpge-default.csv",
   "./decks/mstc-default.csv",
+  "./decks/psad-default.csv",
   "./decks/decks.json"
 ];
 
@@ -43,6 +44,7 @@ self.addEventListener("activate", event => {
     })
   );
 });
+
 
 
 
