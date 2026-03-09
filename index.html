@@ -371,15 +371,12 @@
       console.warn("CSV empty or invalid for deck:", title);
       return false;
     }
-    const deck = { 
-      title, 
-      questions: parsed.map(q => ({
-        q: q.question,
-        choices: q.choices,
-        answer: q.answer
-      })), 
-      record: "0/0" 
+    const deck = {
+      title: entry.name,
+      questions: parsedQuestions,
+      record: "0/0"
     };
+
     library.push(deck);
     localStorage.setItem('quizLibrary', JSON.stringify(library));
     return true;
@@ -689,6 +686,7 @@ function prevQuestion() {
   </div>
 </body>
 </html>
+
 
 
 
