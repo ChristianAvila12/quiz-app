@@ -289,34 +289,44 @@
   const soundWrong = new Audio('wrong.mp3');
 
   async function initializeDefaultDecks() {
-    for (const entry of deckRegistry) {
-      if (library.some(d => d.title === entry.name)) continue;
+    try {
+      // Step 1: Load registry JSON
+      const registryResponse = await fetch('decks/decks.json');
+      const deckRegistry = await registryResponse.json();
   
-      try {
-        const response = await fetch(entry.path);
-        const text = await response.text();
+      // Step 2: Loop through registry entries
+      for (const entry of deckRegistry) {
+        if (library.some(d => d.title === entry.name)) continue;
   
-        // Use your parser here
-        const parsedQuestions = parseCSV(text);
+        try {
+          const response = await fetch(entry.path);
+          const text = await response.text();
   
-        const deck = {
-          title: entry.name,
-          questions: parsedQuestions.map(q => ({
-            q: q.question,
-            choices: q.choices,
-            answer: q.answer
-          })),
-          record: "0/0"
-        };
+          // Step 3: Parse CSV with your parser
+          const parsedQuestions = parseCSV(text);
   
-        library.push(deck);
-      } catch (err) {
-        console.error(`Failed to load deck ${entry.name}:`, err);
+          const deck = {
+            title: entry.name,
+            questions: parsedQuestions.map(q => ({
+              q: q.question,
+              choices: q.choices,
+              answer: q.answer
+            })),
+            record: "0/0"
+          };
+  
+          library.push(deck);
+        } catch (err) {
+          console.error(`Failed to load deck ${entry.name}:`, err);
+        }
       }
-    }
   
-    localStorage.setItem('quizLibrary', JSON.stringify(library));
-    renderLibrary();
+      // Step 4: Save updated library
+      localStorage.setItem('quizLibrary', JSON.stringify(library));
+      renderLibrary();
+    } catch (err) {
+      console.error("Failed to load decks.json:", err);
+    }
   }
 
   /* --- Utility Functions --- */
@@ -664,6 +674,7 @@ function prevQuestion() {
 </script>
 </body>
 </html>
+
 
 
 
