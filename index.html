@@ -301,6 +301,24 @@
   let timer;
   const soundCorrect = new Audio('correct.wav');
   const soundWrong = new Audio('wrong.wav');
+  const wrongSounds = [
+    new Audio('wrong.wav'),
+    new Audio('wrong1.mp3'),
+    new Audio('wrong2.mp3'),
+    new Audio('wrong3.mp3'),
+    new Audio('wrong4.mp3'),
+    new Audio('wrong5.mp3'),
+    new Audio('wrong6.mp3')
+  ];
+
+  const correctSounds = [
+    new Audio('correct.wav'),
+    new Audio('correct1.mp3'),
+    new Audio('correct2.mp3'),
+    new Audio('correct3.mp3'),
+    new Audio('correct4.mp3')
+  ];
+
     
   
 
@@ -343,6 +361,13 @@
       renderLibrary();
     }
   }
+
+    // Utility: play random sound from a list
+function playRandomSound(soundArray) {
+  const index = Math.floor(Math.random() * soundArray.length);
+  soundArray[index].play();
+}
+
 
   function saveDeck() {
   const title = document.getElementById('deck-title').value;
@@ -525,9 +550,11 @@ function prevQuestion() {
     let correct = selectedIndex === q.answer;
     if (correct) {
       score++;
-      soundCorrect.play();
+      // soundCorrect.play();
+      playRandomSound(correctSounds);
     } else {
-      soundWrong.play();
+      // soundWrong.play();
+      playRandomSound(wrongSounds);
     }
     resultsData[currentIndex] = {
       question: q.question,
@@ -687,6 +714,7 @@ function prevQuestion() {
   </div>
 </body>
 </html>
+
 
 
 
