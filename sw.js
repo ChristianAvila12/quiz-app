@@ -12,7 +12,7 @@ const urlsToCache = [
   "./correct2.mp3",
   "./correct3.mp3",
   "./correct4.mp3",
-  "./wrong.wave",
+  "./wrong.wav",
   "./wrong1.mp3",
   "./wrong2.mp3",
   "./wrong3.mp3",
@@ -68,6 +68,7 @@ self.addEventListener("activate", event => {
     })
   );
 });
+
 
 
 
