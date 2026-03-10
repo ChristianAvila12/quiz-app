@@ -8,7 +8,7 @@ const urlsToCache = [
   "./index.html",    // main HTML
   "./icon.png",
   "./correct.wav",
-  "./wrong.mp3",
+  "./wrong.wave",
   "./decks/hpge-default.csv",
   "./decks/mstc-default.csv",
   "./decks/psad-default.csv",
@@ -27,8 +27,22 @@ self.addEventListener("install", event => {
 // Fetch event: serve cached files if offline
 self.addEventListener("fetch", event => {
   event.respondWith(
-    caches.match(event.request).then(response => {
-      return response || fetch(event.request);
+    caches.open(CACHE_NAME).then(cache => {
+      return cache.match(event.request).then(cachedResponse => {
+        const fetchPromise = fetch(event.request).then(networkResponse => {
+          // If we got a good response, update the cache
+          if (networkResponse && networkResponse.status === 200) {
+            cache.put(event.request, networkResponse.clone());
+          }
+          return networkResponse;
+        }).catch(() => {
+          // If network fails, just return cached response
+          return cachedResponse;
+        });
+
+        // Return cached response immediately if available, else wait for network
+        return cachedResponse || fetchPromise;
+      });
     })
   );
 });
@@ -44,6 +58,7 @@ self.addEventListener("activate", event => {
     })
   );
 });
+
 
 
 
