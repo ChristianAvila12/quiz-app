@@ -9,16 +9,10 @@ const urlsToCache = [
   "./icon.png",
   "./correct.wav",
   "./correct1.mp3",
-  "./correct2.mp3",
-  "./correct3.mp3",
-  "./correct4.mp3",
   "./wrong.wav",
   "./wrong1.mp3",
-  "./wrong2.mp3",
-  "./wrong3.mp3",
   "./wrong4.mp3",
   "./wrong5.mp3",
-  "./wrong6.mp3",
   "./decks/hpge-default.csv",
   "./decks/mstc-default.csv",
   "./decks/psad-default.csv",
@@ -68,6 +62,7 @@ self.addEventListener("activate", event => {
     })
   );
 });
+
 
 
 
