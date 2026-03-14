@@ -1,5 +1,6 @@
 [
   { "name": "HPGE Terms - Default", "path": "decks/hpge-default.csv" },
   { "name": "MSTC Terms - Default", "path": "decks/mstc-default.csv" },
-  { "name": "PSAD Terms - Default", "path": "decks/psad-default.csv" }
+  { "name": "PSAD Terms - Default", "path": "decks/psad-default.csv" },
+  { "name": "MSTC Looksfam - TEST", "path": "decks/MSTC Looksfam - TEST.csv" }
 ]
